@@ -27,6 +27,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.ExtentSparkReporterConfig;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.testbase.Baseclass;
+import com.util.Util;
 
 public class ExtentReportTest extends Baseclass {
 
@@ -52,7 +53,7 @@ public class ExtentReportTest extends Baseclass {
 
 	@BeforeTest
 	public void parentTestname() {
-		init();
+		initDriver("chrome");
 		parenttest = extent.createTest(getClass().getName());
 	}
 
@@ -83,7 +84,7 @@ public class ExtentReportTest extends Baseclass {
 			childtest.log(Status.FAIL, MarkupHelper
 					.createLabel(result.getName() + " Test case FAILED due to below issues:", ExtentColor.RED));
 			childtest.fail(result.getThrowable());
-			String screenshotPath = ExtentReportTest.getScreenshot(driver, result.getName());
+			String screenshotPath = Util.getScreenshot(driver, result.getName());
 			childtest.addScreenCaptureFromPath(screenshotPath);
 		} else if (result.getStatus() == ITestResult.SUCCESS) {
 			childtest.log(Status.PASS,
@@ -94,18 +95,6 @@ public class ExtentReportTest extends Baseclass {
 			childtest.skip(result.getThrowable());
 		}
 
-	}
-
-	public static String getScreenshot(WebDriver driver, String screenshotName) throws IOException {
-		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-		TakesScreenshot ts = (TakesScreenshot) driver;
-		File source = ts.getScreenshotAs(OutputType.FILE);
-		// after execution, you could see a folder "FailedTestsScreenshots"
-		String destination = System.getProperty("user.dir") + File.separator + "FailedTestsScreenshots" + File.separator
-				+ screenshotName + dateName + ".png";
-		File finalDestination = new File(destination);
-		FileUtils.copyFile(source, finalDestination);
-		return destination;
 	}
 
 	@AfterSuite

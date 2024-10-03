@@ -1,11 +1,10 @@
 package com.util;
 
 import java.io.File;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -22,18 +21,17 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.testbase.Baseclass;
 
 public class Util extends Baseclass {
-	public static File propfile;
-	public static FileInputStream fileInput;
-	public static Properties prop;
-	String propfilepath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-			+ File.separator + "resources" + File.separator + "demo.properties";
 
 	public void click(By locator) {
 		driver.findElement(locator).click();
@@ -48,26 +46,16 @@ public class Util extends Baseclass {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(element));
 	}
 
-	public String getPropertydata(String property) {
-		propfile = new File(propfilepath);
-
-		try {
-			fileInput = new FileInputStream(propfile);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		prop = new Properties();
-		// load properties file
-		try {
-			prop.load(fileInput);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return prop.getProperty(property);
+	public static String getScreenshot(WebDriver driver, String screenshotName) throws IOException {
+		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		// after execution, you could see a folder "FailedTestsScreenshots"
+		String destination = System.getProperty("user.dir") + File.separator + "FailedTestsScreenshots" + File.separator
+				+ screenshotName + dateName + ".png";
+		File finalDestination = new File(destination);
+		FileUtils.copyFile(source, finalDestination);
+		return destination;
 	}
 
 	public void sendEmail() {
@@ -97,7 +85,7 @@ public class Util extends Baseclass {
 
 					protected PasswordAuthentication getPasswordAuthentication() {
 
-						return new PasswordAuthentication(getPropertydata("fromemail"), getPropertydata("emailpw"));
+						return new PasswordAuthentication(PropertyReader.getPropertydata("fromemail"), PropertyReader.getPropertydata("emailpw"));
 
 					}
 
@@ -109,10 +97,10 @@ public class Util extends Baseclass {
 			Message message = new MimeMessage(session);
 
 			// Set the from address
-			message.setFrom(new InternetAddress(getPropertydata("fromemail")));
+			message.setFrom(new InternetAddress(PropertyReader.getPropertydata("fromemail")));
 
 			// Set the recipient address
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(getPropertydata("toemail")));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(PropertyReader.getPropertydata("toemail")));
 
 			// Add the subject link
 			message.setSubject("Automation Test Report");

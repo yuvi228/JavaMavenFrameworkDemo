@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import com.extentreport.ExtentReportTest;
 import com.testbase.Lauchurl;
+import com.util.PropertyReader;
 import com.util.Util;
 
 public class Demo extends ExtentReportTest {
@@ -16,7 +17,7 @@ public class Demo extends ExtentReportTest {
 	@Test(priority = 0, description = "This is to launch google")
 	public void googleRedirect() throws Exception {
 
-		url.launchURL(util.getPropertydata("baseurl"));
+		url.launchURL(PropertyReader.getPropertydata("baseurl"));
 
 		testStep("pass", "Launching URL");
 

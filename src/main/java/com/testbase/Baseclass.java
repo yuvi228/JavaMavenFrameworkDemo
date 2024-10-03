@@ -2,15 +2,22 @@ package com.testbase;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Baseclass {
 
-	public static WebDriver driver; // To invoke Webdriver in Selenium
-	// public static IOSDriver<MobileElement> driver; To invoke iOS driver in Appium
+	public static WebDriver driver;
 
-	public void init() {
-		// TODO Auto-generated constructor stub
-		driver = new ChromeDriver();
+	public void initDriver(String browser) {
+
+		if (browser.equalsIgnoreCase("chrome")) {
+			driver = new ChromeDriver(); // No need for WebDriverManager, Selenium Manager takes care
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			driver = new FirefoxDriver();
+		} else if (browser.equalsIgnoreCase("edge")) {
+			driver = new EdgeDriver();
+		}
 		driver.manage().window().maximize();
 
 	}
