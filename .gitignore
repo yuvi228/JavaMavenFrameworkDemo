@@ -1,0 +1,8 @@
+/target/
+/test-output/
+/FailedTestsScreenshots/
+*.class
+.classpath
+.project
+.settings/
+.DS_Store
