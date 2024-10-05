@@ -27,6 +27,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.ExtentSparkReporterConfig;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.testbase.Baseclass;
+import com.util.PropertyReader;
 import com.util.Util;
 
 public class ExtentReportTest extends Baseclass {
@@ -53,7 +54,7 @@ public class ExtentReportTest extends Baseclass {
 
 	@BeforeTest
 	public void parentTestname() {
-		initDriver("chrome");
+		initDriver(PropertyReader.getBrowser());
 		parenttest = extent.createTest(getClass().getName());
 	}
 

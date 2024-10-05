@@ -12,7 +12,7 @@ public class Baseclass {
 	public void initDriver(String browser) {
 
 		if (browser.equalsIgnoreCase("chrome")) {
-			driver = new ChromeDriver(); // No need for WebDriverManager, Selenium Manager takes care
+			driver = new ChromeDriver(); 
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
 		} else if (browser.equalsIgnoreCase("edge")) {

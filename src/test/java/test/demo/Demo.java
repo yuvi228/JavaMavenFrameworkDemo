@@ -17,7 +17,7 @@ public class Demo extends ExtentReportTest {
 	@Test(priority = 0, description = "This is to launch google")
 	public void googleRedirect() throws Exception {
 
-		url.launchURL(PropertyReader.getPropertydata("baseurl"));
+		url.launchURL(PropertyReader.getPropertydata(PropertyReader.getEnvironment()+".url"));
 
 		testStep("pass", "Launching URL");
 
