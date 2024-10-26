@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="FrameworkDemo">
-	<test thread-count="5" verbose="2" name="FrameworkDemo Test">
+
+<suite name="FrameworkDemo">
+	<test thread-count="5" verbose="2" name="FrameworkDemo UI Test">
 		<classes>
 			<class name="test.demo.Demo" />
 
 		</classes>
-	</test> <!-- Framework demo test -->
+	</test>
 
+	<test thread-count="5" verbose="2" name="FrameworkDemo API Test">
+		<classes>
+			<class name="apitest.APITest" />
 
+		</classes>
+	</test>
 
-</suite> <!-- Default suite -->
+</suite>

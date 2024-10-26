@@ -51,8 +51,7 @@ public class Util extends Baseclass {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots"
-		String destination = System.getProperty("user.dir") + File.separator + "FailedTestsScreenshots" + File.separator
-				+ screenshotName + dateName + ".png";
+		String destination = Constants.FAILEDTESTSCREENSHOTSPATH + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
@@ -85,7 +84,8 @@ public class Util extends Baseclass {
 
 					protected PasswordAuthentication getPasswordAuthentication() {
 
-						return new PasswordAuthentication(PropertyReader.getPropertydata("fromemail"), PropertyReader.getPropertydata("emailpw"));
+						return new PasswordAuthentication(PropertyReader.getPropertydata("fromemail"),
+								PropertyReader.getPropertydata("emailpw"));
 
 					}
 
@@ -100,7 +100,8 @@ public class Util extends Baseclass {
 			message.setFrom(new InternetAddress(PropertyReader.getPropertydata("fromemail")));
 
 			// Set the recipient address
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(PropertyReader.getPropertydata("toemail")));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(PropertyReader.getPropertydata("toemail")));
 
 			// Add the subject link
 			message.setSubject("Automation Test Report");

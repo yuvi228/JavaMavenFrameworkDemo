@@ -1,16 +1,7 @@
 package com.extentreport;
 
-import java.io.File;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -27,6 +18,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.ExtentSparkReporterConfig;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.testbase.Baseclass;
+import com.util.Constants;
 import com.util.PropertyReader;
 import com.util.Util;
 
@@ -40,16 +32,13 @@ public class ExtentReportTest extends Baseclass {
 
 	@BeforeSuite
 	public void setUp() {
-		sparkReporter = new ExtentSparkReporter(System.getProperty("user.dir") + File.separator + "extentreport.html");
-
+		sparkReporter = new ExtentSparkReporter(Constants.EXTENTREPORTPATH);
 		ExtentSparkReporterConfig config = sparkReporter.config();
 		config.setDocumentTitle("Automation Test Report");
 		config.setReportName("Extent Report Demo");
 		config.setTheme(Theme.DARK);
-
 		extent = new ExtentReports();
 		extent.attachReporter(sparkReporter);
-
 	}
 
 	@BeforeTest
@@ -64,7 +53,6 @@ public class ExtentReportTest extends Baseclass {
 	}
 
 	public void testStep(String status, String stepdesc) {
-
 		if (status.equalsIgnoreCase("INFO")) {
 			childtest.log(Status.INFO, MarkupHelper.createLabel(stepdesc, ExtentColor.YELLOW));
 		} else if (status.equalsIgnoreCase("FAIL")) {
